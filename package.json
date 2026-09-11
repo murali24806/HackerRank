@@ -1,0 +1,11 @@
+{
+  "name": "hackerrank-viit-mern",
+  "version": "1.0.0",
+  "description": "Full MERN Stack for HackerRank VIIT On Campus Chapter",
+  "scripts": {
+    "server": "cd backend && node server.js",
+    "client": "cd frontend && npm run dev",
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "seed": "cd backend && node seed.js"
+  }
+}
