@@ -7,6 +7,7 @@ import TeamSection from './components/TeamSection';
 import GallerySection from './components/GallerySection';
 import ResourcesSection from './components/ResourcesSection';
 import Footer from './components/Footer';
+import ContactSection from './components/ContactSection';
 import AdminPanel from './components/AdminPanel';
 import AnnouncementsMarquee from './components/AnnouncementsMarquee';
 
@@ -53,6 +54,9 @@ export default function App() {
 
         {/* Student Hub: Resources, Coding Platforms, Notes, Road Map */}
         <ResourcesSection />
+
+        {/* Contact Section */}
+        <ContactSection />
       </main>
 
       {/* Chapter Footer */}
