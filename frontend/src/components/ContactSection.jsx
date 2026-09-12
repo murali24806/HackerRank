@@ -17,8 +17,8 @@ export default function ContactSection() {
     <section id="contact" className="section-padding dark-bg" style={{ position: 'relative', overflow: 'hidden' }}>
       
       {/* Premium Ambient Background Effects */}
-      <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(0, 234, 106, 0.15) 0%, transparent 70%)', filter: 'blur(60px)', zIndex: 0 pointerEvents: 'none' }}></div>
-      <div style={{ position: 'absolute', bottom: '-10%', right: '-5%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 106, 255, 0.1) 0%, transparent 70%)', filter: 'blur(80px)', zIndex: 0 pointerEvents: 'none' }}></div>
+      <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(0, 234, 106, 0.15) 0%, transparent 70%)', filter: 'blur(60px)', zIndex: 0, pointerEvents: 'none' }}></div>
+      <div style={{ position: 'absolute', bottom: '-10%', right: '-5%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 106, 255, 0.1) 0%, transparent 70%)', filter: 'blur(80px)', zIndex: 0, pointerEvents: 'none' }}></div>
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <div className="section-header text-center reveal active" style={{ marginBottom: '60px' }}>
