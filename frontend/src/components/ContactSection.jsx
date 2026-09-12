@@ -4,6 +4,7 @@ export default function ContactSection() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,49 +15,122 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="section-padding dark-bg" style={{ position: 'relative', overflow: 'hidden' }}>
-      <div className="container">
-        <div className="section-header text-center reveal active">
-          <span className="eyebrow-tag">Get In Touch</span>
-          <h2 className="section-title">Contact Us</h2>
-          <p className="section-subtitle">
-            Have questions about an upcoming event, or want to collaborate with the HackerRank VIIT Chapter? Reach out to us!
+      
+      {/* Premium Ambient Background Effects */}
+      <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(0, 234, 106, 0.15) 0%, transparent 70%)', filter: 'blur(60px)', zIndex: 0 pointerEvents: 'none' }}></div>
+      <div style={{ position: 'absolute', bottom: '-10%', right: '-5%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 106, 255, 0.1) 0%, transparent 70%)', filter: 'blur(80px)', zIndex: 0 pointerEvents: 'none' }}></div>
+
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        <div className="section-header text-center reveal active" style={{ marginBottom: '60px' }}>
+          <span className="eyebrow-tag" style={{ border: '1px solid rgba(0, 234, 106, 0.3)', padding: '6px 16px', borderRadius: '30px', fontSize: '0.85rem', color: '#00EA6A', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', display: 'inline-block', marginBottom: '15px', background: 'rgba(0, 234, 106, 0.05)' }}>Get In Touch</span>
+          <h2 className="section-title" style={{ fontSize: '3rem', fontWeight: '800', marginBottom: '15px', background: 'linear-gradient(90deg, #fff, #a0aec0)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Let's Build Together</h2>
+          <p className="section-subtitle" style={{ maxWidth: '600px', margin: '0 auto', fontSize: '1.1rem', color: '#8b9bb4', lineHeight: '1.6' }}>
+            Have questions about upcoming hackathons, or want to collaborate with the HackerRank VIIT Chapter? We'd love to hear from you.
           </p>
         </div>
 
-        <div className="contact-grid reveal active" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginTop: '40px' }}>
+        <div className="contact-wrapper reveal active" style={{ display: 'flex', flexWrap: 'wrap', gap: '40px', justifyContent: 'center', maxWidth: '1100px', margin: '0 auto' }}>
           
-          {/* Contact Info Card */}
-          <div className="contact-card" style={{ background: '#121824', padding: '30px', borderRadius: '15px', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
-            <h3 style={{ fontSize: '1.5rem', marginBottom: '20px', color: '#fff' }}>Chapter Information</h3>
-            <ul style={{ listStyle: 'none', padding: '0', color: '#a0aec0', lineHeight: '1.8' }}>
-              <li style={{ marginBottom: '15px', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                <span style={{ color: '#00EA6A' }}>📍</span>
-                <span>Vignan's Institute of Information Technology (VIIT)<br/>Duvvada, Visakhapatnam, AP, India</span>
-              </li>
-              <li style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ color: '#00EA6A' }}>✉️</span>
-                <a href="mailto:hackerrank.viit@gmail.com" style={{ color: '#a0aec0', textDecoration: 'none' }}>hackerrank.viit@gmail.com</a>
-              </li>
-              <li style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ color: '#00EA6A' }}>📱</span>
-                <span>+91 XXXXX XXXXX (Chapter Lead)</span>
-              </li>
-            </ul>
+          {/* Left Column: Contact Info */}
+          <div className="contact-info" style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: '30px' }}>
+            <div style={{ background: 'rgba(18, 24, 36, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '20px', padding: '40px', boxShadow: '0 20px 40px rgba(0,0,0,0.3)', height: '100%' }}>
+              <h3 style={{ fontSize: '1.8rem', fontWeight: '700', color: '#fff', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', background: 'rgba(0, 234, 106, 0.1)', borderRadius: '10px', color: '#00EA6A', fontSize: '1.2rem' }}>✦</span>
+                Contact Information
+              </h3>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
+                
+                <div style={{ display: 'flex', gap: '20px' }}>
+                  <div style={{ width: '50px', height: '50px', borderRadius: '12px', background: 'linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', flexShrink: 0 }}>📍</div>
+                  <div>
+                    <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '5px', fontWeight: '600' }}>Location</h4>
+                    <p style={{ color: '#8b9bb4', fontSize: '0.95rem', lineHeight: '1.6' }}>Vignan's Institute of Information Technology (VIIT)<br/>Duvvada, Visakhapatnam, AP</p>
+                  </div>
+                </div>
 
-            <div className="social-pills" style={{ marginTop: '25px', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-              <a href="https://www.linkedin.com/company/hackerrank-oncampus-chapter-viit/" target="_blank" rel="noopener noreferrer" style={{ background: 'rgba(255,255,255,0.05)', padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem', color: '#fff', textDecoration: 'none', transition: 'background 0.3s ease' }}>LinkedIn</a>
-              <a href="https://www.instagram.com/hackerrank_viit?stkn=MTFjNzJ2andxdWh0dw==" target="_blank" rel="noopener noreferrer" style={{ background: 'rgba(255,255,255,0.05)', padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem', color: '#fff', textDecoration: 'none', transition: 'background 0.3s ease' }}>Instagram</a>
+                <div style={{ display: 'flex', gap: '20px' }}>
+                  <div style={{ width: '50px', height: '50px', borderRadius: '12px', background: 'linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', flexShrink: 0 }}>✉️</div>
+                  <div>
+                    <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '5px', fontWeight: '600' }}>Email</h4>
+                    <a href="mailto:hackerrank.viit@gmail.com" style={{ color: '#00EA6A', fontSize: '0.95rem', textDecoration: 'none', fontWeight: '500', transition: 'opacity 0.2s ease' }} onMouseOver={(e)=>e.target.style.opacity=0.8} onMouseOut={(e)=>e.target.style.opacity=1}>hackerrank.viit@gmail.com</a>
+                  </div>
+                </div>
+
+              </div>
+
+              <div style={{ marginTop: '50px', paddingTop: '30px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <h4 style={{ color: '#8b9bb4', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '20px' }}>Connect with us</h4>
+                <div style={{ display: 'flex', gap: '15px' }}>
+                  <a href="https://www.linkedin.com/company/hackerrank-oncampus-chapter-viit/" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '30px', color: '#fff', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500', transition: 'all 0.3s ease' }} onMouseOver={(e)=>{e.currentTarget.style.background='rgba(255,255,255,0.1)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.2)';}} onMouseOut={(e)=>{e.currentTarget.style.background='rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.1)';}}>
+                    LinkedIn <span style={{ opacity: 0.5 }}>↗</span>
+                  </a>
+                  <a href="https://www.instagram.com/hackerrank_viit?stkn=MTFjNzJ2andxdWh0dw==" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '30px', color: '#fff', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500', transition: 'all 0.3s ease' }} onMouseOver={(e)=>{e.currentTarget.style.background='rgba(255,255,255,0.1)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.2)';}} onMouseOut={(e)=>{e.currentTarget.style.background='rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.1)';}}>
+                    Instagram <span style={{ opacity: 0.5 }}>↗</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Quick Registration / Inquiry Form Placeholder */}
-          <div className="contact-card" style={{ background: '#121824', padding: '30px', borderRadius: '15px', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
-            <h3 style={{ fontSize: '1.5rem', marginBottom: '20px', color: '#fff' }}>Send an Inquiry</h3>
-            <form style={{ display: 'flex', flexDirection: 'column', gap: '15px' }} onSubmit={handleSubmit}>
-              <input type="text" placeholder="Your Name" value={name} onChange={(e) => setName(e.target.value)} required style={{ padding: '12px 15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '1rem', outline: 'none' }} />
-              <input type="email" placeholder="Your Email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ padding: '12px 15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '1rem', outline: 'none' }} />
-              <textarea placeholder="Message / Event Registration Query" value={message} onChange={(e) => setMessage(e.target.value)} rows="4" required style={{ padding: '12px 15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '1rem', outline: 'none', resize: 'vertical' }}></textarea>
-              <button type="submit" className="btn-primary" style={{ marginTop: '10px', alignSelf: 'flex-start', border: 'none', cursor: 'pointer' }}>Send Message</button>
+          {/* Right Column: Interactive Form */}
+          <div className="contact-form-container" style={{ flex: '1 1 500px', background: 'rgba(10, 14, 23, 0.8)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '20px', padding: '50px 40px', boxShadow: '0 30px 60px rgba(0,0,0,0.4)', position: 'relative' }}>
+            
+            <h3 style={{ fontSize: '1.6rem', color: '#fff', marginBottom: '30px', fontWeight: '600' }}>Send us a message</h3>
+            
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
+              
+              <div style={{ display: 'flex', gap: '20px' }}>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <label style={{ fontSize: '0.9rem', color: '#8b9bb4', fontWeight: '500' }}>Your Name <span style={{ color: '#00EA6A' }}>*</span></label>
+                  <input type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required 
+                    style={{ width: '100%', padding: '14px 18px', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', fontSize: '1rem', outline: 'none', transition: 'border-color 0.3s ease' }}
+                    onFocus={(e) => e.target.style.borderColor = '#00EA6A'} onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                  />
+                </div>
+                
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <label style={{ fontSize: '0.9rem', color: '#8b9bb4', fontWeight: '500' }}>Email Address <span style={{ color: '#00EA6A' }}>*</span></label>
+                  <input type="email" placeholder="john@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required 
+                    style={{ width: '100%', padding: '14px 18px', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', fontSize: '1rem', outline: 'none', transition: 'border-color 0.3s ease' }}
+                    onFocus={(e) => e.target.style.borderColor = '#00EA6A'} onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <label style={{ fontSize: '0.9rem', color: '#8b9bb4', fontWeight: '500' }}>How can we help? <span style={{ color: '#00EA6A' }}>*</span></label>
+                <textarea placeholder="Tell us about your query, event registration, or collaboration idea..." value={message} onChange={(e) => setMessage(e.target.value)} rows="5" required 
+                  style={{ width: '100%', padding: '16px 18px', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', fontSize: '1rem', outline: 'none', resize: 'vertical', transition: 'border-color 0.3s ease' }}
+                  onFocus={(e) => e.target.style.borderColor = '#00EA6A'} onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                ></textarea>
+              </div>
+
+              <button type="submit" 
+                onMouseEnter={() => setIsHovered(true)} 
+                onMouseLeave={() => setIsHovered(false)}
+                style={{ 
+                  marginTop: '15px', 
+                  width: '100%', 
+                  padding: '16px', 
+                  background: isHovered ? '#00EA6A' : '#fff', 
+                  color: '#0e141e', 
+                  border: 'none', 
+                  borderRadius: '12px', 
+                  fontSize: '1.05rem', 
+                  fontWeight: '700', 
+                  cursor: 'pointer', 
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}>
+                Send Message
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transition: 'transform 0.3s ease', transform: isHovered ? 'translateX(4px)' : 'translateX(0)' }}>
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
             </form>
           </div>
 
