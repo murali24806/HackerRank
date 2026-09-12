@@ -4,6 +4,9 @@ process.on('unhandledRejection', err => { console.error('UNHANDLED REJECTION:', 
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const mongoSanitize = require("express-mongo-sanitize");
 
 const authRoute = require("./routes/auth");
 const eventsRoute = require("./routes/events");
@@ -34,6 +37,18 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 }));
 app.use(express.json());
+
+// Apply global security middleware
+app.use(helmet());
+app.use(mongoSanitize());
+
+// General API Rate Limiting (100 requests per 15 mins per IP)
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100,
+  message: { message: "Too many requests from this IP, please try again after 15 minutes" }
+});
+app.use("/api/", apiLimiter);
 
 // Root Route
 app.get("/", (req, res) => {
