@@ -2385,3 +2385,6 @@ h1, h2, h3, h4 {
   .glass-form-col { flex: 1 1 100%; }
 }
 
+
+html { scroll-behavior: smooth; }
+
