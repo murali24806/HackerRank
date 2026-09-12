@@ -24,6 +24,11 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Root Route
+app.get("/", (req, res) => {
+  res.send("Welcome to the HackerRank VIIT Backend API!");
+});
+
 // Health Check API
 app.get("/api/health", (req, res) => {
   res.json({
