@@ -1,59 +1,23 @@
-import React from 'react';
-
-const ANNOUNCEMENTS = [
-  {
-    id: 1,
-    tag: 'LIVE CONTEST',
-    tagColor: '#ef4444',
-    time: 'Now',
-    title: 'CodeSprint 2026 Registration Open! ₹50K prize pool.',
-    link: '#events',
-  },
-  {
-    id: 2,
-    tag: 'WORKSHOP',
-    tagColor: '#3b82f6',
-    time: 'Sat 6 PM',
-    title: 'DSA Graph Algorithms Masterclass with FAANG alumni.',
-    link: '#events',
-  },
-  {
-    id: 3,
-    tag: 'RECRUITMENT',
-    tagColor: '#10b981',
-    time: 'Phase 1',
-    title: 'Core Team & Tech Lead positions open for 2026-27.',
-    link: '#contact',
-  },
-  {
-    id: 4,
-    tag: 'MOCK ROUND',
-    tagColor: '#f59e0b',
-    time: 'Tomorrow',
-    title: 'Google & Microsoft mock technical interview slots live.',
-    link: '#events',
-  },
-  {
-    id: 5,
-    tag: 'HACKATHON',
-    tagColor: '#8b5cf6',
-    time: '25th Sept',
-    title: 'HackVIIT 48-hr software hackathon registrations active.',
-    link: '#events',
-  },
-  {
-    id: 6,
-    tag: 'NATIONAL WIN',
-    tagColor: '#ec4899',
-    time: 'SIH 2026',
-    title: 'Team ByteCraft VIIT bags 1st prize at SIH National Finals!',
-    link: '#highlights',
-  },
-];
+import React, { useState, useEffect } from 'react';
 
 export default function AnnouncementsScroller() {
+  const [announcements, setAnnouncements] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/announcements')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setAnnouncements(data);
+        }
+      })
+      .catch(console.error);
+  }, []);
+
   // Duplicate list items for seamless continuous -50% loop from bottom to top
-  const loopItems = [...ANNOUNCEMENTS, ...ANNOUNCEMENTS];
+  // If API fails or is empty, provide a fallback to avoid breaking layout
+  const displayItems = announcements.length > 0 ? announcements : [{ _id: 'fallback', title: 'No new announcements yet.', tag: 'INFO', tagColor: '#3b82f6', time: 'Now', link: '#' }];
+  const loopItems = [...displayItems, ...displayItems];
 
   return (
     <div className="announcements-scroller-card">
@@ -315,8 +279,8 @@ export default function AnnouncementsScroller() {
         <div className="ann-scroll-track">
           {loopItems.map((item, idx) => (
             <a
-              key={`${item.id}-${idx}`}
-              href={item.link}
+              key={`${item._id || item.id}-${idx}`}
+              href={item.link || '#'}
               className="ann-item"
             >
               <div className="ann-item-top">
@@ -332,7 +296,7 @@ export default function AnnouncementsScroller() {
                 </span>
                 <span className="ann-item-time">{item.time}</span>
               </div>
-              <p className="ann-item-text">{item.title}</p>
+              <p className="ann-item-text">{item.title || item.text}</p>
             </a>
           ))}
         </div>

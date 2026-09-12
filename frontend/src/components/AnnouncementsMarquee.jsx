@@ -22,7 +22,7 @@ export default function AnnouncementsMarquee() {
         <div className="marquee-content">
           {announcements.map((ann, idx) => (
             <span key={ann._id || idx} className="announcement-item">
-              <span className="announcement-text">{ann.text}</span>
+              <span className="announcement-text">{ann.title || ann.text}</span>
               {ann.link && (
                 <a href={ann.link} target="_blank" rel="noopener noreferrer" className="announcement-link">
                   [Read More]
@@ -34,7 +34,7 @@ export default function AnnouncementsMarquee() {
           {/* Duplicate for seamless scrolling */}
           {announcements.map((ann, idx) => (
             <span key={`dup-${ann._id || idx}`} className="announcement-item">
-              <span className="announcement-text">{ann.text}</span>
+              <span className="announcement-text">{ann.title || ann.text}</span>
               {ann.link && (
                 <a href={ann.link} target="_blank" rel="noopener noreferrer" className="announcement-link">
                   [Read More]

@@ -414,7 +414,7 @@ function GalleryTab() {
 // ─── Announcements Tab ────────────────────────────────────────────────────────
 function AnnouncementsTab() {
   const [items, setItems] = useState([]);
-  const [form, setForm] = useState({ text: '', link: '', active: true });
+  const [form, setForm] = useState({ title: '', tag: '', tagColor: '#3b82f6', time: '', link: '', active: true });
   const [editing, setEditing] = useState(null);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState('');
@@ -434,7 +434,7 @@ function AnnouncementsTab() {
         flash('✅ Created!');
       }
       setEditing(null);
-      setForm({ text: '', link: '', active: true });
+      setForm({ title: '', tag: '', tagColor: '#3b82f6', time: '', link: '', active: true });
       load();
     } catch (e) { flash('❌ ' + e.message); }
     finally { setLoading(false); }
@@ -442,7 +442,7 @@ function AnnouncementsTab() {
 
   const edit = (item) => {
     setEditing(item._id);
-    setForm({ text: item.text, link: item.link || '', active: item.active });
+    setForm({ title: item.title, tag: item.tag || '', tagColor: item.tagColor || '#3b82f6', time: item.time || '', link: item.link || '', active: item.active });
   };
 
   const del = async (id) => {
@@ -460,7 +460,10 @@ function AnnouncementsTab() {
         {msg && <div className="adm-flash">{msg}</div>}
         <form onSubmit={save} className="adm-form">
           <div className="adm-form-grid">
-            <div className="adm-field adm-full"><label>Announcement Text</label><input value={form.text} onChange={f('text')} placeholder="E.g., Hackathon registrations are open!" required /></div>
+            <div className="adm-field adm-full"><label>Announcement Title</label><input value={form.title} onChange={f('title')} placeholder="E.g., Hackathon registrations are open!" required /></div>
+            <div className="adm-field"><label>Tag (e.g., MOCK ROUND)</label><input value={form.tag} onChange={f('tag')} placeholder="MOCK ROUND" required /></div>
+            <div className="adm-field"><label>Tag Color</label><input type="color" value={form.tagColor} onChange={f('tagColor')} /></div>
+            <div className="adm-field"><label>Time/Date (e.g., Tomorrow)</label><input value={form.time} onChange={f('time')} placeholder="Tomorrow" required /></div>
             <div className="adm-field adm-full"><label>Link (Optional)</label><input value={form.link} onChange={f('link')} placeholder="https://..." /></div>
             <div className="adm-field">
               <label className="adm-checkbox-label">
@@ -470,7 +473,7 @@ function AnnouncementsTab() {
             </div>
           </div>
           <div className="adm-form-actions">
-            {editing && <button type="button" className="adm-btn adm-btn-ghost" onClick={() => { setEditing(null); setForm({ text: '', link: '', active: true }); }}>Cancel</button>}
+            {editing && <button type="button" className="adm-btn adm-btn-ghost" onClick={() => { setEditing(null); setForm({ title: '', tag: '', tagColor: '#3b82f6', time: '', link: '', active: true }); }}>Cancel</button>}
             <button className="adm-btn adm-btn-primary" disabled={loading}>{loading ? 'Saving…' : editing ? 'Update' : 'Add'}</button>
           </div>
         </form>
@@ -483,7 +486,9 @@ function AnnouncementsTab() {
             <div className="adm-card" key={item._id || idx}>
               <div className="adm-card-body">
                 <span className={`adm-badge ${item.active ? '' : 'inactive'}`}>{item.active ? 'ACTIVE' : 'INACTIVE'}</span>
-                <p style={{ marginTop: '10px' }}><strong>{item.text}</strong></p>
+                <span className="adm-badge" style={{ backgroundColor: item.tagColor, marginLeft: '8px' }}>{item.tag}</span>
+                <span style={{ fontSize: '0.8rem', color: '#666', marginLeft: '8px' }}>{item.time}</span>
+                <p style={{ marginTop: '10px' }}><strong>{item.title}</strong></p>
                 {item.link && (
                   <a href={item.link} target="_blank" rel="noopener noreferrer" className="adm-drive-link">
                     🔗 Link
