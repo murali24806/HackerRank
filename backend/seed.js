@@ -150,6 +150,20 @@ const team = [
       twitter: "https://twitter.com"
     },
     order: 3
+  },
+  {
+    name: "Pranathi Korupolu",
+    role: "Content Creator",
+    badgeClass: "badge-design",
+    bio: "Creating engaging technical content, tutorials, and social media campaigns for the HackerRank VIIT community.",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=pranathi&backgroundColor=0e141e",
+    nodePosition: "right",
+    socials: {
+      github: "https://github.com",
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com"
+    },
+    order: 4
   }
 ];
 

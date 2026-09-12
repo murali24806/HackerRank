@@ -219,6 +219,19 @@ export const fallbackTeam = [
       linkedin: "https://linkedin.com",
       twitter: "https://twitter.com"
     }
+  },
+  {
+    name: "Pranathi Korupolu",
+    role: "Content Creator",
+    badgeClass: "badge-design",
+    bio: "Creating engaging technical content, tutorials, and social media campaigns for the HackerRank VIIT community.",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=pranathi&backgroundColor=0e141e",
+    nodePosition: "right",
+    socials: {
+      github: "https://github.com",
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com"
+    }
   }
 ];
 
