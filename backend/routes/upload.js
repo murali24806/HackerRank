@@ -17,7 +17,7 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "hackerrank-viit",
-    allowed_formats: ["jpg", "jpeg", "png", "webp", "gif"],
+    allowed_formats: ["jpg", "jpeg", "png", "webp", "gif", "heic", "heif"],
     transformation: [{ quality: "auto", fetch_format: "auto" }],
   },
 });
