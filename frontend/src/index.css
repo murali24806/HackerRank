@@ -1219,13 +1219,14 @@ h1, h2, h3, h4 {
 }
 
 .event-option-action {
-  pointer-events: auto;
+  pointer-events: none;
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .event-option.active .event-option-action {
+  pointer-events: auto;
   opacity: 1;
   transform: translateY(0);
 }
