@@ -509,6 +509,136 @@ function AnnouncementsTab() {
   );
 }
 
+// ─── Team Tab ─────────────────────────────────────────────────────────────
+function TeamTab() {
+  const [items, setItems] = useState([]);
+  const [form, setForm] = useState({
+    name: '', role: '', badgeClass: 'badge-lead', bio: '', avatar: '',
+    nodePosition: 'right', order: 0,
+    github: '', linkedin: '', twitter: ''
+  });
+  const [editing, setEditing] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState('');
+
+  const load = useCallback(async () => {
+    try { setItems(await apiFetch('/team')); } catch { }
+  }, []);
+  useEffect(() => { load(); }, [load]);
+
+  const flash = (m) => { setMsg(m); setTimeout(() => setMsg(''), 3000); };
+
+  const save = async (e) => {
+    e.preventDefault(); setLoading(true);
+    try {
+      const payload = {
+        name: form.name,
+        role: form.role,
+        badgeClass: form.badgeClass,
+        bio: form.bio,
+        avatar: form.avatar,
+        nodePosition: form.nodePosition,
+        order: form.order,
+        socials: { github: form.github, linkedin: form.linkedin, twitter: form.twitter }
+      };
+
+      if (editing) {
+        await apiFetch(`/team/${editing}`, { method: 'PUT', headers: authHeader(), body: JSON.stringify(payload) });
+        flash('✅ Updated!');
+      } else {
+        await apiFetch('/team', { method: 'POST', headers: authHeader(), body: JSON.stringify(payload) });
+        flash('✅ Created!');
+      }
+      setEditing(null);
+      setForm({ name: '', role: '', badgeClass: 'badge-lead', bio: '', avatar: '', nodePosition: 'right', order: 0, github: '', linkedin: '', twitter: '' });
+      load();
+    } catch (e) { flash('❌ ' + e.message); }
+    finally { setLoading(false); }
+  };
+
+  const edit = (item) => {
+    setEditing(item._id);
+    setForm({
+      name: item.name, role: item.role, badgeClass: item.badgeClass || 'badge-lead',
+      bio: item.bio, avatar: item.avatar, nodePosition: item.nodePosition || 'right', order: item.order || 0,
+      github: item.socials?.github || '', linkedin: item.socials?.linkedin || '', twitter: item.socials?.twitter || ''
+    });
+  };
+
+  const del = async (id) => {
+    if (!window.confirm('Delete this team member?')) return;
+    try { await apiFetch(`/team/${id}`, { method: 'DELETE', headers: authHeader() }); flash('🗑 Deleted'); load(); }
+    catch (e) { flash('❌ ' + e.message); }
+  };
+
+  const f = (k) => (v) => setForm(prev => ({ ...prev, [k]: typeof v === 'object' && v.target ? v.target.value : v }));
+
+  const badges = ['badge-lead', 'badge-tech', 'badge-code', 'badge-design', 'badge-community', 'badge-event'];
+
+  return (
+    <div className="adm-tab-content">
+      <div className="adm-section">
+        <h2>{editing ? 'Edit Team Member' : 'Add Team Member'}</h2>
+        {msg && <div className="adm-flash">{msg}</div>}
+        <form onSubmit={save} className="adm-form">
+          <div className="adm-form-grid">
+            <div className="adm-field"><label>Name</label><input value={form.name} onChange={f('name')} placeholder="e.g. Alex Mercer" required /></div>
+            <div className="adm-field"><label>Role</label><input value={form.role} onChange={f('role')} placeholder="e.g. Chapter Lead" required /></div>
+            <div className="adm-field">
+              <label>Badge Class</label>
+              <select value={form.badgeClass} onChange={f('badgeClass')}>
+                {badges.map(b => <option key={b} value={b}>{b}</option>)}
+              </select>
+            </div>
+            <div className="adm-field">
+              <label>Node Position (Timeline Side)</label>
+              <select value={form.nodePosition} onChange={f('nodePosition')}>
+                <option value="right">Right</option>
+                <option value="left">Left</option>
+              </select>
+            </div>
+            <div className="adm-field adm-full"><label>Bio</label><textarea value={form.bio} onChange={f('bio')} rows={2} required /></div>
+            <div className="adm-field"><label>GitHub URL</label><input value={form.github} onChange={f('github')} placeholder="https://github.com/..." /></div>
+            <div className="adm-field"><label>LinkedIn URL</label><input value={form.linkedin} onChange={f('linkedin')} placeholder="https://linkedin.com/in/..." /></div>
+            <div className="adm-field"><label>Twitter URL</label><input value={form.twitter} onChange={f('twitter')} placeholder="https://twitter.com/..." /></div>
+            <div className="adm-field"><label>Order (Sorting)</label><input type="number" value={form.order} onChange={f('order')} /></div>
+            <div className="adm-full">
+              <ImageUpload label="Avatar / Profile Picture" value={form.avatar} onChange={f('avatar')} />
+            </div>
+          </div>
+          <div className="adm-form-actions">
+            {editing && <button type="button" className="adm-btn adm-btn-ghost" onClick={() => { setEditing(null); setForm({ name: '', role: '', badgeClass: 'badge-lead', bio: '', avatar: '', nodePosition: 'right', order: 0, github: '', linkedin: '', twitter: '' }); }}>Cancel</button>}
+            <button className="adm-btn adm-btn-primary" disabled={loading}>{loading ? 'Saving…' : editing ? 'Update Member' : 'Add Member'}</button>
+          </div>
+        </form>
+      </div>
+
+      <div className="adm-section">
+        <h2>Team Members ({items.length})</h2>
+        <div className="adm-cards">
+          {items.map((item, idx) => (
+            <div className="adm-card" key={item._id || idx}>
+              <img src={item.avatar} alt={item.name} className="adm-card-img" style={{ height: '150px', objectFit: 'contain', backgroundColor: '#0e141e' }} onError={e => e.target.style.display = 'none'} />
+              <div className="adm-card-body">
+                <span className="adm-badge">{item.badgeClass}</span>
+                <h3>{item.name}</h3>
+                <p><strong>{item.role}</strong></p>
+                <p style={{ fontSize: '0.8rem' }}>{item.bio}</p>
+              </div>
+              {item._id && (
+                <div className="adm-card-actions">
+                  <button className="adm-btn adm-btn-sm adm-btn-secondary" onClick={() => edit(item)}>✏️ Edit</button>
+                  <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => del(item._id)}>🗑 Delete</button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Admin Panel ─────────────────────────────────────────────────────────
 export default function AdminPanel() {
   const [loggedIn, setLoggedIn] = useState(!!getToken());
@@ -523,6 +653,7 @@ export default function AdminPanel() {
     { id: 'events', label: '📅 Events' },
     { id: 'gallery', label: '🖼 Gallery' },
     { id: 'announcements', label: '📢 Announcements' },
+    { id: 'team', label: '👥 Team' },
   ];
 
   return (
@@ -553,6 +684,7 @@ export default function AdminPanel() {
         {activeTab === 'events' && <EventsTab />}
         {activeTab === 'gallery' && <GalleryTab />}
         {activeTab === 'announcements' && <AnnouncementsTab />}
+        {activeTab === 'team' && <TeamTab />}
       </main>
     </div>
   );

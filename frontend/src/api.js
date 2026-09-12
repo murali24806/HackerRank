@@ -259,3 +259,42 @@ export async function deleteGalleryItem(id) {
   if (!res.ok) throw new Error('Delete failed');
   return res.json();
 }
+
+// ─── Admin: Team CRUD ────────────────────────────────────────────────────────
+
+export async function adminFetchTeam() {
+  const res = await fetch(`${API_BASE}/team`);
+  if (!res.ok) throw new Error('Failed to fetch team');
+  return res.json();
+}
+
+export async function createTeamMember(data) {
+  const res = await fetch(`${API_BASE}/team`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify(data)
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message || 'Create failed');
+  return json;
+}
+
+export async function updateTeamMember(id, data) {
+  const res = await fetch(`${API_BASE}/team/${id}`, {
+    method: 'PUT',
+    headers: authHeaders(),
+    body: JSON.stringify(data)
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message || 'Update failed');
+  return json;
+}
+
+export async function deleteTeamMember(id) {
+  const res = await fetch(`${API_BASE}/team/${id}`, {
+    method: 'DELETE',
+    headers: authHeaders()
+  });
+  if (!res.ok) throw new Error('Delete failed');
+  return res.json();
+}

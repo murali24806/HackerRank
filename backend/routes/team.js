@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const TeamMember = require("../models/TeamMember");
+const verifyAdmin = require("../middleware/auth");
 
 const fallbackTeam = [
   {
@@ -104,6 +105,38 @@ router.get("/", async (req, res) => {
     return res.json(fallbackTeam);
   } catch (err) {
     return res.json(fallbackTeam);
+  }
+});
+
+// POST create team member (admin)
+router.post("/", verifyAdmin, async (req, res) => {
+  try {
+    const member = new TeamMember(req.body);
+    await member.save();
+    return res.status(201).json(member);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+});
+
+// PUT update team member (admin)
+router.put("/:id", verifyAdmin, async (req, res) => {
+  try {
+    const member = await TeamMember.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!member) return res.status(404).json({ message: "Team member not found" });
+    return res.json(member);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+});
+
+// DELETE team member (admin)
+router.delete("/:id", verifyAdmin, async (req, res) => {
+  try {
+    await TeamMember.findByIdAndDelete(req.params.id);
+    return res.json({ message: "Team member deleted successfully" });
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
   }
 });
 
