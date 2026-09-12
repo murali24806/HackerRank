@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function ContactSection() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`Inquiry from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+    window.location.href = `mailto:hackerrank.viit@gmail.com?subject=${subject}&body=${body}`;
+  };
+
   return (
     <section id="contact" className="section-padding dark-bg" style={{ position: 'relative', overflow: 'hidden' }}>
       <div className="container">
@@ -24,7 +35,7 @@ export default function ContactSection() {
               </li>
               <li style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span style={{ color: '#00EA6A' }}>✉️</span>
-                <a href="mailto:hackerrank@vignan.ac.in" style={{ color: '#a0aec0', textDecoration: 'none' }}>hackerrank@vignan.ac.in</a>
+                <a href="mailto:hackerrank.viit@gmail.com" style={{ color: '#a0aec0', textDecoration: 'none' }}>hackerrank.viit@gmail.com</a>
               </li>
               <li style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span style={{ color: '#00EA6A' }}>📱</span>
@@ -41,10 +52,10 @@ export default function ContactSection() {
           {/* Quick Registration / Inquiry Form Placeholder */}
           <div className="contact-card" style={{ background: '#121824', padding: '30px', borderRadius: '15px', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
             <h3 style={{ fontSize: '1.5rem', marginBottom: '20px', color: '#fff' }}>Send an Inquiry</h3>
-            <form style={{ display: 'flex', flexDirection: 'column', gap: '15px' }} onSubmit={(e) => { e.preventDefault(); alert("Thanks for reaching out! We will get back to you soon."); }}>
-              <input type="text" placeholder="Your Name" required style={{ padding: '12px 15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '1rem', outline: 'none' }} />
-              <input type="email" placeholder="Your Email" required style={{ padding: '12px 15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '1rem', outline: 'none' }} />
-              <textarea placeholder="Message / Event Registration Query" rows="4" required style={{ padding: '12px 15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '1rem', outline: 'none', resize: 'vertical' }}></textarea>
+            <form style={{ display: 'flex', flexDirection: 'column', gap: '15px' }} onSubmit={handleSubmit}>
+              <input type="text" placeholder="Your Name" value={name} onChange={(e) => setName(e.target.value)} required style={{ padding: '12px 15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '1rem', outline: 'none' }} />
+              <input type="email" placeholder="Your Email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ padding: '12px 15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '1rem', outline: 'none' }} />
+              <textarea placeholder="Message / Event Registration Query" value={message} onChange={(e) => setMessage(e.target.value)} rows="4" required style={{ padding: '12px 15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '1rem', outline: 'none', resize: 'vertical' }}></textarea>
               <button type="submit" className="btn-primary" style={{ marginTop: '10px', alignSelf: 'flex-start', border: 'none', cursor: 'pointer' }}>Send Message</button>
             </form>
           </div>
