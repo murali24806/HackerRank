@@ -5,7 +5,9 @@ import {
   fallbackGallery
 } from './data/fallbackData';
 
-const API_BASE = '/api';
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? '/api'
+  : 'https://hackerrankviit.onrender.com/api';
 
 // ─── Helper: get stored admin token ────────────────────────────────────────
 function getToken() {
