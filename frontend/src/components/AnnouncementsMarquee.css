@@ -33,7 +33,7 @@
 
 .marquee-content {
   display: inline-block;
-  animation: scrollMarquee 25s linear infinite;
+  animation: scrollMarquee 15s linear infinite;
   padding-left: 100%;
 }
 

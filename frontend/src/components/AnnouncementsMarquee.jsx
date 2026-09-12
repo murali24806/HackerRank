@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './AnnouncementsMarquee.css';
+import { fetchAnnouncements } from '../api';
 
 export default function AnnouncementsMarquee() {
   const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
-    fetch('/api/announcements')
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) setAnnouncements(data);
-      })
-      .catch(console.error);
+    fetchAnnouncements().then(data => {
+      if (Array.isArray(data)) setAnnouncements(data);
+    });
   }, []);
 
   if (announcements.length === 0) return null;

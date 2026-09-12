@@ -67,6 +67,18 @@ export async function fetchGallery() {
   }
 }
 
+export async function fetchAnnouncements() {
+  try {
+    const res = await fetch(`${API_BASE}/announcements`);
+    if (!res.ok) throw new Error("API error");
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}
+
 export async function submitApplication(formData) {
   try {
     const res = await fetch(`${API_BASE}/applications`, {

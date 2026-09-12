@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { fetchAnnouncements } from '../api';
 
 export default function AnnouncementsScroller() {
   const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
-    fetch('/api/announcements')
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data) && data.length > 0) {
-          setAnnouncements(data);
-        }
-      })
-      .catch(console.error);
+    fetchAnnouncements().then(data => {
+      if (Array.isArray(data) && data.length > 0) {
+        setAnnouncements(data);
+      }
+    });
   }, []);
 
   // Duplicate list items for seamless continuous -50% loop from bottom to top
@@ -111,7 +109,7 @@ export default function AnnouncementsScroller() {
           display: flex;
           flex-direction: column;
           gap: 8px;
-          animation: scrollUpLoop 20s linear infinite;
+          animation: scrollUpLoop 12s linear infinite;
         }
 
         .ann-scroll-viewport:hover .ann-scroll-track,
@@ -232,7 +230,7 @@ export default function AnnouncementsScroller() {
 
           .ann-scroll-track {
             gap: 5px;
-            animation-duration: 16s;
+            animation-duration: 9s;
           }
 
           .ann-item {
