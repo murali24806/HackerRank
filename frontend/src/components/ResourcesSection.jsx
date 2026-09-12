@@ -24,9 +24,6 @@ export default function ResourcesSection() {
 
   return (
     <section id="resources" className="resources-section section-padding">
-      {/* Anchor for any old #contact navigation links */}
-      <div id="contact" style={{ position: 'relative', top: '-100px' }} />
-
       <style>{`
         .resources-section {
           position: relative;
