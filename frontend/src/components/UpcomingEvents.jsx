@@ -77,7 +77,11 @@ export default function UpcomingEvents() {
               key={event._id || event.id || index}
               className={`event-option ${index === activeIndex ? 'active' : ''}`}
               style={{ backgroundImage: `url('${event.image}')` }}
-              onClick={() => setActiveIndex(index)}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setActiveIndex(index);
+              }}
             >
               <div className="event-option-shadow"></div>
 
@@ -97,7 +101,7 @@ export default function UpcomingEvents() {
                   <div className="event-option-main">{event.title}</div>
                   <div className="event-option-sub">{event.description}</div>
                   <div className="event-option-action">
-                    <a href="#contact" className="btn-primary btn-sm">
+                    <a href="#contact" className="btn-primary btn-sm" onClick={(e) => e.stopPropagation()}>
                       Register Now &rarr;
                     </a>
                   </div>
