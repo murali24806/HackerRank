@@ -14,8 +14,13 @@ router.post("/login", (req, res) => {
     return res.status(400).json({ message: "Password is required" });
   }
 
-  const adminPassword = process.env.ADMIN_PASSWORD || "hackerrank_viit_2026";
-  const jwtSecret = process.env.JWT_SECRET || "default_secret";
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  const jwtSecret = process.env.JWT_SECRET;
+
+  if (!adminPassword || !jwtSecret) {
+    console.error("CRITICAL SECURITY ERROR: ADMIN_PASSWORD or JWT_SECRET is not set in the environment variables.");
+    return res.status(500).json({ message: "Internal server configuration error. Login disabled." });
+  }
 
   if (password !== adminPassword) {
     return res.status(401).json({ message: "Invalid password" });
@@ -34,7 +39,12 @@ router.get("/verify", (req, res) => {
   if (!token) return res.status(401).json({ valid: false });
 
   try {
-    const secret = process.env.JWT_SECRET || "default_secret";
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        console.error("CRITICAL SECURITY ERROR: JWT_SECRET is not set.");
+        return res.status(500).json({ valid: false });
+    }
+    
     const decoded = jwt.verify(token, secret);
     if (decoded.role !== "admin") return res.status(403).json({ valid: false });
     return res.json({ valid: true });

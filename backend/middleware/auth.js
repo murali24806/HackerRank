@@ -8,7 +8,11 @@ function verifyAdmin(req, res, next) {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "default_secret");
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        throw new Error("JWT_SECRET is not configured");
+    }
+    const decoded = jwt.verify(token, secret);
     if (decoded.role !== "admin") {
       return res.status(403).json({ message: "Forbidden" });
     }
