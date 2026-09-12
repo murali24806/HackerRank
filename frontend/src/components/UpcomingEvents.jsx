@@ -101,7 +101,11 @@ export default function UpcomingEvents() {
                   <div className="event-option-main">{event.title}</div>
                   <div className="event-option-sub">{event.description}</div>
                   <div className="event-option-action">
-                    <a href="#contact" className="btn-primary btn-sm" onClick={(e) => e.stopPropagation()}>
+                    <a href="#contact" className="btn-primary btn-sm" onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                    }}>
                       Register Now &rarr;
                     </a>
                   </div>

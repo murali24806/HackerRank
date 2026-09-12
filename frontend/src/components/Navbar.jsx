@@ -9,7 +9,7 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
 
-      const sections = ['home', 'highlights', 'events', 'team', 'gallery', 'resources'];
+      const sections = ['home', 'highlights', 'events', 'team', 'gallery', 'contact', 'resources'];
       const scrollPos = window.scrollY + 140;
 
       for (const id of sections) {
@@ -84,6 +84,15 @@ export default function Navbar() {
               onClick={() => setMenuOpen(false)}
             >
               Gallery
+            </a>
+          </li>
+          <li>
+            <a
+              href="#contact"
+              className={`nav-item ${activeSection === 'contact' ? 'active' : ''}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              Contact
             </a>
           </li>
           <li>
