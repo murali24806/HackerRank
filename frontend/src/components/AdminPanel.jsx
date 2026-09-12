@@ -33,7 +33,7 @@ function LoginScreen({ onLogin }) {
       localStorage.setItem('admin_token', data.token);
       onLogin();
     } catch (e) {
-      setErr('Incorrect password. Please try again.');
+      setErr(`Error: ${e.message === "Failed to fetch" ? "Network or CORS error. Check backend." : e.message}`);
     } finally { setLoading(false); }
   };
 
