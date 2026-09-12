@@ -2315,3 +2315,73 @@ h1, h2, h3, h4 {
 
 
  
+
+/* === Responsive Glass Contact Section === */
+.glass-contact-section {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+.glass-contact-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: var(--color-text);
+}
+.glass-contact-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.glass-contact-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-radius: 24px;
+  padding: 45px 40px;
+  box-shadow: var(--glass-shadow);
+}
+.glass-form-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.glass-form-col {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.glass-input {
+  width: 100%;
+  padding: 16px 20px;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 16px;
+  color: var(--color-text);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+.glass-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-glow);
+}
+
+@media (max-width: 768px) {
+  .glass-contact-title { font-size: 2.2rem; }
+  .glass-contact-card { padding: 30px 20px; border-radius: 16px; }
+  .glass-input { padding: 14px 16px; font-size: 0.95rem; }
+  .glass-contact-wrapper { gap: 20px; }
+}
+@media (max-width: 480px) {
+  .glass-contact-title { font-size: 1.8rem; }
+  .glass-contact-card { padding: 25px 15px; }
+  .glass-form-col { flex: 1 1 100%; }
+}
+
