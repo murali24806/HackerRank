@@ -14,10 +14,8 @@ export default function Footer() {
               Official On Campus Chapter at Vignan's Institute of Information Technology (VIIT), Duvvada, Visakhapatnam.
             </p>
             <div className="social-pills">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
-              <a href="https://hackerrank.com" target="_blank" rel="noopener noreferrer">HackerRank</a>
+              <a href="https://www.linkedin.com/company/hackerrank-oncampus-chapter-viit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a href="https://www.instagram.com/hackerrank_viit?stkn=MTFjNzJ2andxdWh0dw==" target="_blank" rel="noopener noreferrer">Instagram</a>
             </div>
           </div>
 
