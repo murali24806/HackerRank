@@ -121,7 +121,7 @@ export default function TeamSection() {
                   {!isRight && (
                     <div className="member-node-col">
                       <div className="avatar-ring">
-                        <img src={member.avatar} alt={member.name} className="member-avatar" />
+                        <img src={member.avatar} alt={member.name} className="member-avatar" loading="lazy" />
                         <span className="node-indicator"></span>
                       </div>
                     </div>
@@ -166,7 +166,7 @@ export default function TeamSection() {
                   {isRight && (
                     <div className="member-node-col">
                       <div className="avatar-ring">
-                        <img src={member.avatar} alt={member.name} className="member-avatar" />
+                        <img src={member.avatar} alt={member.name} className="member-avatar" loading="lazy" />
                         <span className="node-indicator"></span>
                       </div>
                     </div>

@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <div className="footer-logo">
-              <img src="/assets/images/logo.jpeg" alt="Logo" />
+              <img src="/assets/images/logo.jpeg" alt="Logo" loading="lazy" />
               <h3>HackerRank</h3>
             </div>
             <p>

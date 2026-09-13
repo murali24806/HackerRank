@@ -55,7 +55,7 @@ export default function ChapterHighlights() {
                     </a>
                   </div>
                   <div className="banner-media">
-                    <img src={slide.image} alt={slide.titleAccent} />
+                    <img src={slide.image} alt={slide.titleAccent} loading="lazy" />
                   </div>
                 </div>
               ))}

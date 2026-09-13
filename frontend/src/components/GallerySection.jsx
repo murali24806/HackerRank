@@ -75,7 +75,7 @@ export default function GallerySection() {
             <button className="lightbox-close" onClick={() => setActiveModalItem(null)} aria-label="Close">
               &times;
             </button>
-            <img src={activeModalItem.image} alt={activeModalItem.title} />
+            <img src={activeModalItem.image} alt={activeModalItem.title} loading="lazy" />
             <div className="lightbox-caption">
               <h3>{activeModalItem.title}</h3>
               <p>{activeModalItem.description || activeModalItem.summary}</p>
