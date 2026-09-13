@@ -519,7 +519,7 @@ function TeamTab() {
   const [form, setForm] = useState({
     name: '', role: '', badgeClass: 'badge-lead', bio: '', avatar: '',
     nodePosition: 'right', order: 0,
-    github: '', linkedin: '', twitter: ''
+    github: '', linkedin: ''
   });
   const [editing, setEditing] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -543,7 +543,7 @@ function TeamTab() {
         avatar: form.avatar,
         nodePosition: form.nodePosition,
         order: form.order,
-        socials: { github: form.github, linkedin: form.linkedin, twitter: form.twitter }
+        socials: { github: form.github, linkedin: form.linkedin }
       };
 
       if (editing) {
@@ -554,7 +554,7 @@ function TeamTab() {
         flash('✅ Created!');
       }
       setEditing(null);
-      setForm({ name: '', role: '', badgeClass: 'badge-lead', bio: '', avatar: '', nodePosition: 'right', order: 0, github: '', linkedin: '', twitter: '' });
+      setForm({ name: '', role: '', badgeClass: 'badge-lead', bio: '', avatar: '', nodePosition: 'right', order: 0, github: '', linkedin: '' });
       load();
     } catch (e) { flash('❌ ' + e.message); }
     finally { setLoading(false); }
@@ -565,7 +565,7 @@ function TeamTab() {
     setForm({
       name: item.name, role: item.role, badgeClass: item.badgeClass || 'badge-lead',
       bio: item.bio, avatar: item.avatar, nodePosition: item.nodePosition || 'right', order: item.order || 0,
-      github: item.socials?.github || '', linkedin: item.socials?.linkedin || '', twitter: item.socials?.twitter || ''
+      github: item.socials?.github || '', linkedin: item.socials?.linkedin || ''
     });
   };
 
@@ -604,14 +604,14 @@ function TeamTab() {
             <div className="adm-field adm-full"><label>Bio</label><textarea value={form.bio} onChange={f('bio')} rows={2} required /></div>
             <div className="adm-field"><label>GitHub URL</label><input value={form.github} onChange={f('github')} placeholder="https://github.com/..." /></div>
             <div className="adm-field"><label>LinkedIn URL</label><input value={form.linkedin} onChange={f('linkedin')} placeholder="https://linkedin.com/in/..." /></div>
-            <div className="adm-field"><label>Twitter URL</label><input value={form.twitter} onChange={f('twitter')} placeholder="https://twitter.com/..." /></div>
+
             <div className="adm-field"><label>Order (Sorting)</label><input type="number" value={form.order} onChange={f('order')} /></div>
             <div className="adm-full">
               <ImageUpload label="Avatar / Profile Picture" value={form.avatar} onChange={f('avatar')} />
             </div>
           </div>
           <div className="adm-form-actions">
-            {editing && <button type="button" className="adm-btn adm-btn-ghost" onClick={() => { setEditing(null); setForm({ name: '', role: '', badgeClass: 'badge-lead', bio: '', avatar: '', nodePosition: 'right', order: 0, github: '', linkedin: '', twitter: '' }); }}>Cancel</button>}
+            {editing && <button type="button" className="adm-btn adm-btn-ghost" onClick={() => { setEditing(null); setForm({ name: '', role: '', badgeClass: 'badge-lead', bio: '', avatar: '', nodePosition: 'right', order: 0, github: '', linkedin: '' }); }}>Cancel</button>}
             <button className="adm-btn adm-btn-primary" disabled={loading}>{loading ? 'Saving…' : editing ? 'Update Member' : 'Add Member'}</button>
           </div>
         </form>
