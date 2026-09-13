@@ -77,12 +77,16 @@ function ImageUpload({ value, onChange, label = 'Image' }) {
         headers: { Authorization: `Bearer ${getToken()}` },
         body: fd,
       });
-      if (!res.ok) throw new Error('Upload failed');
+      if (!res.ok) throw new Error(await res.text());
       const data = await res.json();
       onChange(data.url);
     } catch (e) {
-      setErr('Upload failed. Using URL instead.');
-    } finally { setUploading(false); }
+      console.error("Upload error:", e);
+      setErr('Upload failed: ' + e.message + '. Using URL instead.');
+    } finally { 
+      setUploading(false); 
+      e.target.value = null;
+    }
   };
 
   return (
