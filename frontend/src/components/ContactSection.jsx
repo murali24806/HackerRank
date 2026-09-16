@@ -83,12 +83,12 @@ export default function ContactSection() {
               <div className="glass-form-row">
                 <div className="glass-form-col">
                   <label style={{ fontSize: '0.95rem', color: 'var(--color-text-muted)', fontWeight: '600' }}>Your Name <span style={{ color: 'var(--color-primary)' }}>*</span></label>
-                  <input type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required className="glass-input" />
+                  <input type="text" placeholder="HackerRank" value={name} onChange={(e) => setName(e.target.value)} required className="glass-input" />
                 </div>
                 
                 <div className="glass-form-col">
                   <label style={{ fontSize: '0.95rem', color: 'var(--color-text-muted)', fontWeight: '600' }}>Email Address <span style={{ color: 'var(--color-primary)' }}>*</span></label>
-                  <input type="email" placeholder="john@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required className="glass-input" />
+                  <input type="email" placeholder="hackerrank@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required className="glass-input" />
                 </div>
               </div>
 
