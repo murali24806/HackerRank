@@ -75,19 +75,19 @@ app.use("/api/applications", applicationsRoute);
 app.use("/api/upload", uploadRoute);
 app.use("/api/announcements", announcementsRoute);
 
-async function startServer() {
-  const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/hackerrank_viit";
-  try {
-    await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 5000 });
-    console.log("Connected to MongoDB successfully");
-  } catch (err) {
+const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/hackerrank_viit";
+
+mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 5000 })
+  .then(() => console.log("Connected to MongoDB successfully"))
+  .catch(err => {
     console.warn("MongoDB connection warning:", err.message);
     console.warn("API running in resilient fallback mode (serving structured data directly).");
-  }
+  });
 
+if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`Backend API listening on http://localhost:${PORT}`);
   });
 }
 
-startServer();
+module.exports = app;
