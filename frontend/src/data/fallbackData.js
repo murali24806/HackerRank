@@ -183,7 +183,7 @@ export const fallbackTeam = [
   },
   {
     name: "Manohar Nalla",
-    role: "Graphic Designer",
+    role: "Web Dev Lead",
     badgeClass: "badge-design",
     bio: "Crafting stunning visual designs, branding assets, and creatives that define the HackerRank VIIT chapter identity.",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=manoha&backgroundColor=0e141e",
