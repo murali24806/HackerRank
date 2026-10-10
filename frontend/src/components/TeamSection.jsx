@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { fetchTeam } from '../api';
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 export default function TeamSection() {
   const [team, setTeam] = useState([]);
@@ -155,17 +155,6 @@ export default function TeamSection() {
                             aria-label="LinkedIn"
                           >
                             <FaLinkedin size={18} />
-                          </a>
-                        )}
-                        {member.socials?.twitter && (
-                          <a
-                            href={member.socials.twitter}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="social-icon"
-                            aria-label="Twitter"
-                          >
-                            <FaTwitter size={18} />
                           </a>
                         )}
 
