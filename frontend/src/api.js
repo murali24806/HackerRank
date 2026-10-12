@@ -2,7 +2,8 @@ import {
   fallbackHighlights,
   fallbackEvents,
   fallbackTeam,
-  fallbackGallery
+  fallbackGallery,
+  fallbackAnnouncements
 } from './data/fallbackData';
 
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
@@ -72,10 +73,10 @@ export async function fetchAnnouncements() {
     const res = await fetch(`${API_BASE}/announcements`);
     if (!res.ok) throw new Error("API error");
     const data = await res.json();
-    return data;
+    return data && data.length > 0 ? data : fallbackAnnouncements;
   } catch (err) {
-    console.error(err);
-    return [];
+    console.warn("Using fallback announcements:", err.message);
+    return fallbackAnnouncements;
   }
 }
 

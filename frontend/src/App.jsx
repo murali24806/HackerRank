@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import ContactSection from './components/ContactSection';
 import AdminPanel from './components/AdminPanel';
 import AnnouncementsMarquee from './components/AnnouncementsMarquee';
+import UpdatesModal from './components/UpdatesModal';
 
 const isAdmin = window.location.pathname === '/admin';
 
@@ -18,6 +19,9 @@ export default function App() {
 
   return (
     <div className="app-root">
+      {/* On-Entry Announcements / Events Updates Modal */}
+      <UpdatesModal />
+
       {/* Background Animated Gradients */}
       <div className="ambient-glow glow-1"></div>
       <div className="ambient-glow glow-2"></div>

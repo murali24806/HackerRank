@@ -15,7 +15,14 @@ export default function AnnouncementsMarquee() {
 
   return (
     <div className="announcements-wrapper">
-      <div className="announcements-label">📢 LATEST</div>
+      <div
+        className="announcements-label"
+        style={{ cursor: 'pointer' }}
+        title="Click to view update details"
+        onClick={() => window.dispatchEvent(new CustomEvent('open-updates-modal'))}
+      >
+        📢 LATEST
+      </div>
       <div className="marquee-container">
         <div className="marquee-content">
           {announcements.map((ann, idx) => (

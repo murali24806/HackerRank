@@ -415,15 +415,39 @@ function GalleryTab() {
   );
 }
 
-// ─── Announcements Tab ────────────────────────────────────────────────────────
+// ─── Announcements & Pop-up Updates Tab ───────────────────────────────────────
 function AnnouncementsTab() {
+  const initialForm = {
+    title: '',
+    description: '',
+    tag: 'REGISTRATION OPEN',
+    tagColor: '#00ea64',
+    time: 'Live Now',
+    link: '',
+    buttonText: 'Register Now',
+    image: '',
+    showAsPopup: true,
+    active: true
+  };
+
   const [items, setItems] = useState([]);
-  const [form, setForm] = useState({ title: '', tag: '', tagColor: '#3b82f6', time: '', link: '', active: true });
+  const [form, setForm] = useState(initialForm);
   const [editing, setEditing] = useState(null);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState('');
+  const [previewItem, setPreviewItem] = useState(null);
 
-  const load = useCallback(async () => { try { setItems(await apiFetch('/announcements/all', { headers: authHeader() })); } catch { } }, []);
+  const load = useCallback(async () => {
+    try {
+      setItems(await apiFetch('/announcements/all', { headers: authHeader() }));
+    } catch {
+      // In case admin endpoint fails, try public endpoint
+      try {
+        setItems(await apiFetch('/announcements'));
+      } catch {}
+    }
+  }, []);
+
   useEffect(() => { load(); }, [load]);
   const flash = (m) => { setMsg(m); setTimeout(() => setMsg(''), 3000); };
 
@@ -432,13 +456,13 @@ function AnnouncementsTab() {
     try {
       if (editing) {
         await apiFetch(`/announcements/${editing}`, { method: 'PUT', headers: authHeader(), body: JSON.stringify(form) });
-        flash('✅ Updated!');
+        flash('✅ Announcement & Pop-up Updated!');
       } else {
         await apiFetch('/announcements', { method: 'POST', headers: authHeader(), body: JSON.stringify(form) });
-        flash('✅ Created!');
+        flash('✅ Announcement & Pop-up Created!');
       }
       setEditing(null);
-      setForm({ title: '', tag: '', tagColor: '#3b82f6', time: '', link: '', active: true });
+      setForm(initialForm);
       load();
     } catch (e) { flash('❌ ' + e.message); }
     finally { setLoading(false); }
@@ -446,7 +470,19 @@ function AnnouncementsTab() {
 
   const edit = (item) => {
     setEditing(item._id);
-    setForm({ title: item.title, tag: item.tag || '', tagColor: item.tagColor || '#3b82f6', time: item.time || '', link: item.link || '', active: item.active });
+    setForm({
+      title: item.title || '',
+      description: item.description || '',
+      tag: item.tag || 'REGISTRATION OPEN',
+      tagColor: item.tagColor || '#00ea64',
+      time: item.time || '',
+      link: item.link || '',
+      buttonText: item.buttonText || 'Register Now',
+      image: item.image || '',
+      showAsPopup: item.showAsPopup !== undefined ? item.showAsPopup : true,
+      active: item.active !== undefined ? item.active : true
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const del = async (id) => {
@@ -455,52 +491,204 @@ function AnnouncementsTab() {
     catch (e) { flash('❌ ' + e.message); }
   };
 
-  const f = (k) => (v) => setForm(prev => ({ ...prev, [k]: typeof v === 'object' && v.target ? (v.target.type === 'checkbox' ? v.target.checked : v.target.value) : v }));
+  const f = (k) => (v) => setForm(prev => ({
+    ...prev,
+    [k]: typeof v === 'object' && v.target
+      ? (v.target.type === 'checkbox' ? v.target.checked : v.target.value)
+      : v
+  }));
 
   return (
     <div className="adm-tab-content">
+      {/* Quick Info Banner */}
+      <div className="adm-info-card">
+        <span style={{ fontSize: '1.4rem' }}>💡</span>
+        <div>
+          <strong>Entrance Pop-up Window Control:</strong> Any announcement with <strong>"Show as On-Entry Pop-up"</strong> enabled will automatically greet visitors with this update and direct registration link when they open the site!
+        </div>
+      </div>
+
       <div className="adm-section">
-        <h2>{editing ? 'Edit Announcement' : 'Add Announcement'}</h2>
+        <h2>{editing ? '✏️ Edit Announcement / Event Pop-up' : '➕ Create New Announcement & Pop-up'}</h2>
         {msg && <div className="adm-flash">{msg}</div>}
         <form onSubmit={save} className="adm-form">
           <div className="adm-form-grid">
-            <div className="adm-field adm-full"><label>Announcement Title</label><input value={form.title} onChange={f('title')} placeholder="E.g., Hackathon registrations are open!" required /></div>
-            <div className="adm-field"><label>Tag (e.g., MOCK ROUND)</label><input value={form.tag} onChange={f('tag')} placeholder="MOCK ROUND" required /></div>
-            <div className="adm-field"><label>Tag Color</label><input type="color" value={form.tagColor} onChange={f('tagColor')} /></div>
-            <div className="adm-field"><label>Time/Date (e.g., Tomorrow)</label><input value={form.time} onChange={f('time')} placeholder="Tomorrow" required /></div>
-            <div className="adm-field adm-full"><label>Link (Optional)</label><input value={form.link} onChange={f('link')} placeholder="https://..." /></div>
+            <div className="adm-field adm-full">
+              <label>Announcement / Event Title *</label>
+              <input
+                value={form.title}
+                onChange={f('title')}
+                placeholder="e.g. CodeStorm 2026: Campus Royale Registrations Are Live!"
+                required
+              />
+            </div>
+
+            <div className="adm-field adm-full">
+              <label>Event Description / Update Details (Shown in Pop-up Window)</label>
+              <textarea
+                value={form.description}
+                onChange={f('description')}
+                rows={3}
+                placeholder="Explain the event details, rules, prize pool (e.g. ₹25,000 Cash Pool), eligibility, and why students should register..."
+              />
+            </div>
+
             <div className="adm-field">
-              <label className="adm-checkbox-label">
-                <input type="checkbox" checked={form.active} onChange={f('active')} />
-                Active (Show on website)
+              <label>Tag / Badge (e.g. REGISTRATION OPEN, HACKATHON, URGENT)</label>
+              <input
+                value={form.tag}
+                onChange={f('tag')}
+                placeholder="REGISTRATION OPEN"
+                required
+              />
+            </div>
+
+            <div className="adm-field">
+              <label>Tag Badge Color</label>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <input
+                  type="color"
+                  value={form.tagColor}
+                  onChange={f('tagColor')}
+                  style={{ width: '50px', height: '42px', padding: '2px', cursor: 'pointer' }}
+                />
+                <span style={{ fontFamily: 'monospace', color: form.tagColor }}>{form.tagColor}</span>
+              </div>
+            </div>
+
+            <div className="adm-field">
+              <label>Date / Time / Status</label>
+              <input
+                value={form.time}
+                onChange={f('time')}
+                placeholder="e.g. Oct 15, 2026 or Live Now"
+                required
+              />
+            </div>
+
+            <div className="adm-field">
+              <label>Registration / Event Redirect Link</label>
+              <input
+                value={form.link}
+                onChange={f('link')}
+                placeholder="https://unstop.com/... or Google Form link"
+              />
+            </div>
+
+            <div className="adm-field">
+              <label>CTA Button Label</label>
+              <input
+                value={form.buttonText}
+                onChange={f('buttonText')}
+                placeholder="Register Now (default)"
+              />
+            </div>
+
+            <div className="adm-full">
+              <ImageUpload
+                label="Poster / Event Banner Image (Optional for Pop-up)"
+                value={form.image}
+                onChange={f('image')}
+              />
+            </div>
+
+            <div className="adm-field adm-full" style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', background: 'rgba(0,0,0,0.2)', padding: '14px 18px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <label className="adm-checkbox-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '600' }}>
+                <input
+                  type="checkbox"
+                  checked={form.showAsPopup}
+                  onChange={f('showAsPopup')}
+                  style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#00ea64' }}
+                />
+                ✨ Show as On-Entry Pop-up Window
+              </label>
+
+              <label className="adm-checkbox-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '600' }}>
+                <input
+                  type="checkbox"
+                  checked={form.active}
+                  onChange={f('active')}
+                  style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#00ea64' }}
+                />
+                🟢 Active (Visible on Website)
               </label>
             </div>
           </div>
+
           <div className="adm-form-actions">
-            {editing && <button type="button" className="adm-btn adm-btn-ghost" onClick={() => { setEditing(null); setForm({ title: '', tag: '', tagColor: '#3b82f6', time: '', link: '', active: true }); }}>Cancel</button>}
-            <button className="adm-btn adm-btn-primary" disabled={loading}>{loading ? 'Saving…' : editing ? 'Update' : 'Add'}</button>
+            <button
+              type="button"
+              className="adm-btn adm-btn-secondary"
+              onClick={() => setPreviewItem(form)}
+            >
+              👁️ Preview Pop-up
+            </button>
+            {editing && (
+              <button
+                type="button"
+                className="adm-btn adm-btn-ghost"
+                onClick={() => { setEditing(null); setForm(initialForm); }}
+              >
+                Cancel
+              </button>
+            )}
+            <button className="adm-btn adm-btn-primary" disabled={loading}>
+              {loading ? 'Saving…' : editing ? 'Update Announcement' : 'Publish Announcement'}
+            </button>
           </div>
         </form>
       </div>
 
       <div className="adm-section">
-        <h2>All Announcements ({items.length})</h2>
+        <h2>Announcements & Pop-ups ({items.length})</h2>
         <div className="adm-cards">
           {items.map((item, idx) => (
             <div className="adm-card" key={item._id || idx}>
+              {item.image && (
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="adm-card-img"
+                  style={{ height: '140px', objectFit: 'cover' }}
+                  onError={e => e.target.style.display = 'none'}
+                />
+              )}
               <div className="adm-card-body">
-                <span className={`adm-badge ${item.active ? '' : 'inactive'}`}>{item.active ? 'ACTIVE' : 'INACTIVE'}</span>
-                <span className="adm-badge" style={{ backgroundColor: item.tagColor, marginLeft: '8px' }}>{item.tag}</span>
-                <span style={{ fontSize: '0.8rem', color: '#666', marginLeft: '8px' }}>{item.time}</span>
-                <p style={{ marginTop: '10px' }}><strong>{item.title}</strong></p>
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                  <span className={`adm-badge ${item.active ? '' : 'inactive'}`}>
+                    {item.active ? 'ACTIVE' : 'INACTIVE'}
+                  </span>
+                  {item.showAsPopup && (
+                    <span className="adm-badge" style={{ backgroundColor: 'rgba(0, 234, 100, 0.2)', color: '#00ea64', border: '1px solid #00ea64' }}>
+                      POP-UP ON
+                    </span>
+                  )}
+                  <span className="adm-badge" style={{ backgroundColor: item.tagColor || '#00ea64', color: '#000' }}>
+                    {item.tag}
+                  </span>
+                </div>
+                <p style={{ margin: '6px 0', fontSize: '1rem' }}>
+                  <strong>{item.title}</strong>
+                </p>
+                {item.time && (
+                  <p style={{ fontSize: '0.8rem', color: '#94a3b8', margin: '2px 0 6px 0' }}>
+                    📅 {item.time}
+                  </p>
+                )}
+                {item.description && (
+                  <p style={{ fontSize: '0.84rem', color: '#cbd5e1', margin: '6px 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    {item.description}
+                  </p>
+                )}
                 {item.link && (
-                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="adm-drive-link">
-                    🔗 Link
+                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="adm-drive-link" style={{ marginTop: '8px', display: 'inline-block' }}>
+                    🔗 Registration / Link ({item.buttonText || 'Register'})
                   </a>
                 )}
               </div>
               {item._id && (
                 <div className="adm-card-actions">
+                  <button className="adm-btn adm-btn-sm adm-btn-secondary" onClick={() => setPreviewItem(item)}>👁️ View</button>
                   <button className="adm-btn adm-btn-sm adm-btn-secondary" onClick={() => edit(item)}>✏️ Edit</button>
                   <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => del(item._id)}>🗑 Delete</button>
                 </div>
@@ -509,6 +697,93 @@ function AnnouncementsTab() {
           ))}
         </div>
       </div>
+
+      {/* Admin Interactive Pop-up Preview Modal */}
+      {previewItem && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 99999,
+            background: 'rgba(4, 8, 16, 0.82)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px'
+          }}
+          onClick={() => setPreviewItem(null)}
+        >
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '520px',
+              background: 'linear-gradient(145deg, #0d1527 0%, #080d19 100%)',
+              border: '1px solid rgba(0, 234, 100, 0.3)',
+              borderRadius: '20px',
+              boxShadow: '0 24px 60px rgba(0,0,0,0.8), 0 0 35px rgba(0,234,100,0.15)',
+              overflow: 'hidden'
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', padding: '4px 10px', borderRadius: '20px', background: `${previewItem.tagColor || '#00ea64'}22`, color: previewItem.tagColor || '#00ea64', border: `1px solid ${previewItem.tagColor || '#00ea64'}66` }}>
+                  ● {previewItem.tag || 'UPDATE'}
+                </span>
+                {previewItem.time && <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{previewItem.time}</span>}
+              </div>
+              <button
+                onClick={() => setPreviewItem(null)}
+                style={{ background: 'rgba(255,255,255,0.08)', border: 'none', color: '#cbd5e1', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', fontSize: '1rem' }}
+              >
+                ✕
+              </button>
+            </div>
+            {previewItem.image && (
+              <img
+                src={previewItem.image}
+                alt="Banner"
+                style={{ width: '100%', height: '180px', objectFit: 'cover' }}
+              />
+            )}
+            <div style={{ padding: '20px 24px' }}>
+              <h3 style={{ fontSize: '1.3rem', color: '#fff', margin: '0 0 10px 0' }}>
+                {previewItem.title || 'Announcement Title'}
+              </h3>
+              <p style={{ fontSize: '0.92rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
+                {previewItem.description || 'No description provided.'}
+              </p>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', padding: '16px 24px', borderTop: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8,13,25,0.7)' }}>
+              <button
+                style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: '#94a3b8', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer' }}
+                onClick={() => setPreviewItem(null)}
+              >
+                Close Preview
+              </button>
+              {previewItem.link ? (
+                <a
+                  href={previewItem.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ background: '#00ea64', color: '#040810', padding: '8px 20px', borderRadius: '8px', fontWeight: 'bold', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                >
+                  {previewItem.buttonText || 'Register Now'} ↗
+                </a>
+              ) : (
+                <button
+                  style={{ background: '#00ea64', color: '#040810', padding: '8px 20px', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer' }}
+                  onClick={() => setPreviewItem(null)}
+                >
+                  Done
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -280,3 +280,32 @@ export const fallbackGallery = [
   }
 ];
 
+export const fallbackAnnouncements = [
+  {
+    _id: "ann-fallback-1",
+    title: "CodeSprint 2026: Campus Royale Registrations Are Open!",
+    description: "Gear up for VIIT's flagship competitive programming royale! Compete for a ₹25,000 cash prize pool, exclusive swags, and direct recruitment fast-tracks with industry leaders.",
+    tag: "REGISTRATION OPEN",
+    tagColor: "#10b981",
+    time: "Live Now",
+    link: "https://unstop.com",
+    buttonText: "Register Now",
+    image: "/assets/images/event1.jpg",
+    showAsPopup: true,
+    active: true
+  },
+  {
+    _id: "ann-fallback-2",
+    title: "Upcoming DSA & System Design Masterclass this Saturday",
+    description: "Join MAANG engineers for a deep dive into dynamic programming and scalable system designs.",
+    tag: "WORKSHOP",
+    tagColor: "#3b82f6",
+    time: "Saturday 6 PM",
+    link: "#events",
+    buttonText: "View Event Details",
+    image: "",
+    showAsPopup: false,
+    active: true
+  }
+];
+
