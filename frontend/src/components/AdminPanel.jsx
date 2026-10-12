@@ -592,23 +592,21 @@ function AnnouncementsTab() {
               />
             </div>
 
-            <div className="adm-field adm-full" style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', background: 'rgba(0,0,0,0.2)', padding: '14px 18px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <label className="adm-checkbox-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '600' }}>
+            <div className="adm-field adm-full adm-toggles-card">
+              <label className="adm-checkbox-label">
                 <input
                   type="checkbox"
                   checked={form.showAsPopup}
                   onChange={f('showAsPopup')}
-                  style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#00ea64' }}
                 />
                 ✨ Show as On-Entry Pop-up Window
               </label>
 
-              <label className="adm-checkbox-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '600' }}>
+              <label className="adm-checkbox-label">
                 <input
                   type="checkbox"
                   checked={form.active}
                   onChange={f('active')}
-                  style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#00ea64' }}
                 />
                 🟢 Active (Visible on Website)
               </label>
@@ -897,7 +895,7 @@ function TeamTab() {
         <div className="adm-cards">
           {items.map((item, idx) => (
             <div className="adm-card" key={item._id || idx}>
-              <img src={item.avatar} alt={item.name} className="adm-card-img" style={{ height: '150px', objectFit: 'contain', backgroundColor: '#0e141e' }} onError={e => e.target.style.display = 'none'} />
+              <img src={item.avatar} alt={item.name} className="adm-card-img" style={{ height: '150px', objectFit: 'contain', backgroundColor: '#f8fafc' }} onError={e => e.target.style.display = 'none'} />
               <div className="adm-card-body">
                 <span className="adm-badge">{item.badgeClass}</span>
                 <h3>{item.name}</h3>
